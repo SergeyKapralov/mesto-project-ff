@@ -1,13 +1,21 @@
-// Функция открытия модального окна
+let currentPopup = null;
+
 export function openModal(popup) {
-  if (popup) {
-    popup.classList.add("popup_is-opened");
-  }
+  if (currentPopup) closeModal(currentPopup);
+
+  popup.classList.add("popup_is-opened");
+  document.addEventListener("keydown", handleEscape);
+  currentPopup = popup;
 }
 
-// Функция закрытия модального окна
 export function closeModal(popup) {
-  if (popup) {
-    popup.classList.remove("popup_is-opened");
+  popup.classList.remove("popup_is-opened");
+  document.removeEventListener("keydown", handleEscape);
+  currentPopup = null;
+}
+
+function handleEscape(evt) {
+  if (evt.key === "Escape" && currentPopup) {
+    closeModal(currentPopup);
   }
 }

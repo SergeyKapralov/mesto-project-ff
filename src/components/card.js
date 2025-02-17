@@ -1,35 +1,38 @@
-export function createCard(massive, callback, likeCard, openImage) {
+export function createCard(cardData, { deleteCard, likeCard, clickImage }) {
   const template = document.querySelector("template").content;
-  const cloneTemplate = template.querySelector(".places__item").cloneNode(true);
-  cloneTemplate.querySelector(".card__image").src = massive.link;
-  cloneTemplate.querySelector(".card__title").textContent = massive.name;
-  const deleteButton = cloneTemplate.querySelector(".card__delete-button");
-  deleteButton.addEventListener("click", () => callback(cloneTemplate));
-  cloneTemplate.addEventListener("click", likeCard);
-  cloneTemplate.addEventListener("click", openImage);
-  return cloneTemplate;
+  const cardElement = template.querySelector(".places__item").cloneNode(true);
+
+  const cardImage = cardElement.querySelector(".card__image");
+  cardImage.src = cardData.link;
+  cardImage.alt = `Фотография места: ${cardData.name}`;
+
+  cardElement.querySelector(".card__title").textContent = cardData.name;
+
+  // Удаление карточки
+  const deleteButton = cardElement.querySelector(".card__delete-button");
+  deleteButton.addEventListener("click", () => deleteCard(cardElement));
+
+  // Лайк карточки
+  const likeButton = cardElement.querySelector(".card__like-button");
+  likeButton.addEventListener("click", likeCard);
+
+  // Открытие изображения
+  cardImage.addEventListener("click", () => clickImage(cardData));
+
+  return cardElement;
 }
 
-// Функция обработки лайка
 export function likeCard(evt) {
-  const likeButton = evt.target.closest(".card__like-button");
-  if (likeButton) {
-    likeButton.classList.toggle("card__like-button_is-active");
-  }
+  evt.target.classList.toggle("card__like-button_is-active");
 }
 
-// Функция удаления карточки
-export function callback(deleteCard) {
-  if (!deleteCard) {
-    return;
-  }
-  deleteCard.remove();
+export function deleteCard(cardElement) {
+  cardElement.remove();
 }
 
-// Функция отрисовки карточек
-export function card(initialCards, place, callback, likeCard, openImage) {
-  initialCards.forEach((i) => {
-    const add = createCard(i, callback, likeCard, openImage);
-    place.append(add);
+export function renderCards(cardsData, container, handlers) {
+  cardsData.forEach((cardData) => {
+    const cardElement = createCard(cardData, handlers);
+    container.append(cardElement);
   });
 }
