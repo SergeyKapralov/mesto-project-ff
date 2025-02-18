@@ -6,11 +6,18 @@ import {
   deleteCard,
   renderCards,
 } from "./components/card.js";
-import { openModal, closeModal } from "./components/modal.js";
+import {
+  openModal,
+  closeModal,
+  setModalWindowEventListeners,
+} from "./components/modal.js";
 
 // Глобальные константы
 const popups = document.querySelectorAll(".popup");
-popups.forEach((popup) => popup.classList.add("popup_is-animated"));
+popups.forEach((popup) => {
+  popup.classList.add("popup_is-animated");
+  setModalWindowEventListeners(popup);
+});
 
 const placesList = document.querySelector(".places__list");
 const profileEditButton = document.querySelector(".profile__edit-button");
@@ -48,19 +55,6 @@ renderCards(initialCards, placesList, cardHandlers);
 pictureAddButton.addEventListener("click", () => {
   openModal(popupTypeNewCard);
 });
-
-// Обработчики событий для модальных окон
-function setModalWindowEventListeners(modalWindow) {
-  const closeButton = modalWindow.querySelector(".popup__close");
-  closeButton.addEventListener("click", () => closeModal(modalWindow));
-  modalWindow.addEventListener("click", (event) => {
-    if (event.target === modalWindow) {
-      closeModal(modalWindow);
-    }
-  });
-}
-
-popups.forEach((popup) => setModalWindowEventListeners(popup));
 
 profileEditButton.addEventListener("click", () => {
   nameInput.value = profileTitleElement.textContent;
