@@ -16,9 +16,9 @@ import {
   refreshProfileData,
   refreshCardData,
   deleteCardFromServer,
-	addCardLike,
-	deleteCardLike,
-	addNewProfileImage,
+  addCardLike,
+  deleteCardLike,
+  addNewProfileImage,
 } from "./components/api.js";
 // Глобальные константы
 const popups = document.querySelectorAll(".popup");
@@ -41,10 +41,10 @@ const cardImageInput = formCardElement.elements.link;
 const popupTypeEdit = document.querySelector(".popup_type_edit");
 const popupTypeNewCard = document.querySelector(".popup_type_new-card");
 const profileImage = document.querySelector(".profile__image");
-const popupProfileImage = document.querySelector(".popup_type_edit-avatar")
+const popupProfileImage = document.querySelector(".popup_type_edit-avatar");
 const formProfileElement = document.forms["new-avatar"];
 const formProfileInput = formProfileElement.elements.link;
-const avatar = document.querySelector('.profile__image')
+const avatar = document.querySelector(".profile__image");
 
 // Отрисовка начальных карточек
 const cardHandlers = {
@@ -59,8 +59,8 @@ const cardHandlers = {
       });
   },
   likeCard,
-	addCardLike,
-	deleteCardLike,
+  addCardLike,
+  deleteCardLike,
   clickImage: (cardData) => {
     const popupImage = document.querySelector(".popup_type_image");
     const imageElement = popupImage.querySelector(".popup__image");
@@ -73,12 +73,12 @@ const cardHandlers = {
   },
 };
 
-//Обработчик для иконки профиля 
-profileImage.addEventListener('click', () => {
-	clearValidation(formProfileElement, validationConfig);
-	formProfileInput.value = "";
-	openModal(popupProfileImage);
-})
+//Обработчик для иконки профиля
+profileImage.addEventListener("click", () => {
+  clearValidation(formProfileElement, validationConfig);
+  formProfileInput.value = "";
+  openModal(popupProfileImage);
+});
 
 // Обработчик для кнопки добавления карточки
 pictureAddButton.addEventListener("click", () => {
@@ -98,43 +98,41 @@ profileEditButton.addEventListener("click", () => {
 // Обработчик отправки формы редактирования профиля
 function handleProfileFormSubmit(evt) {
   evt.preventDefault();
-	setButtonState (evt.target, 'Сохранение', true)
+  setButtonState(evt.target, "Сохранение", true);
   profileTitleElement.textContent = nameInput.value;
   profileJobElement.textContent = jobInput.value;
   refreshProfileData(
     profileTitleElement.textContent,
     profileJobElement.textContent,
-  )
-	.then(() => {
-		setButtonState (evt.target, 'Сохранить', false)
-	}) 
+  ).then(() => {
+    setButtonState(evt.target, "Сохранить", false);
+  });
   closeModal(popupTypeEdit);
 }
 
-//функция обновления аватарки 
-formProfileElement.addEventListener("submit", (evt)=> {
-	evt.preventDefault();
-	setButtonState (evt.target, 'Сохранение...', true)
-	addNewProfileImage(formProfileInput.value)
-	.then((data) => {
-		avatar.style.backgroundImage = `url('${data.avatar}')`
-		setButtonState (evt.target, 'Сохранить', false)
-		closeModal(popupProfileImage);
+//функция обновления аватарки
+formProfileElement.addEventListener("submit", (evt) => {
+  evt.preventDefault();
+  setButtonState(evt.target, "Сохранение...", true);
+  addNewProfileImage(formProfileInput.value).then((data) => {
+    avatar.style.backgroundImage = `url('${data.avatar}')`;
+    setButtonState(evt.target, "Сохранить", false);
+    closeModal(popupProfileImage);
+  });
 });
-})
 
 profileFormElement.addEventListener("submit", handleProfileFormSubmit);
 
 // Обработчик отправки формы добавления карточки !!!!!
 function handleCardFormSubmit(event, userId) {
   event.preventDefault();
-	setButtonState (event.target, 'Сохранение...', true)
+  setButtonState(event.target, "Сохранение...", true);
 
   refreshCardData(cardTitleInput.value, cardImageInput.value)
     .then((newCardData) => {
       const cardElement = createCard(newCardData, cardHandlers, userId);
       placesList.prepend(cardElement);
-			setButtonState (event.target, 'Сохранить', false)
+      setButtonState(event.target, "Сохранить", false);
       // Закрываем модальное окно и сбрасываем форму
       closeModal(popupTypeNewCard);
       formCardElement.reset();
@@ -173,10 +171,9 @@ Promise.all([loadUserInfo(), loadUserCard()])
     console.error("Ошибка:", error);
   });
 
-	//Функция изменения текста кнопки submit 
+//Функция изменения текста кнопки submit
 
-	function setButtonState(button, text, isDisabled) {
-		button.querySelector('.button').textContent = text
-		button.disabled = isDisabled;
-	}
-	
+function setButtonState(button, text, isDisabled) {
+  button.querySelector(".button").textContent = text;
+  button.disabled = isDisabled;
+}
