@@ -13,77 +13,77 @@ function checkResponse(response) {
   return response.json();
 }
 
-// Загрузка информации о пользователе 
-export function loadUserInfo() { 
-  return fetch(`${config.baseUrl}/users/me`, { 
-    method: "GET", 
-    headers: config.headers, 
+// Загрузка информации о пользователе
+export function loadUserInfo() {
+  return fetch(`${config.baseUrl}/users/me`, {
+    method: "GET",
+    headers: config.headers,
   }).then(checkResponse);
-} 
+}
 
-// Загрузка карточек 
-export function loadUserCard() { 
-  return fetch(`${config.baseUrl}/cards`, { 
-    method: "GET", 
-    headers: config.headers, 
+// Загрузка карточек
+export function loadUserCard() {
+  return fetch(`${config.baseUrl}/cards`, {
+    method: "GET",
+    headers: config.headers,
   }).then(checkResponse);
-} 
+}
 
-// Обновление данных профиля 
-export function refreshProfileData(profileName, profileDescription) { 
-  return fetch(`${config.baseUrl}/users/me`, { 
-    method: "PATCH", 
-    headers: config.headers, 
-    body: JSON.stringify({ 
-      name: profileName, 
-      about: profileDescription, 
-    }), 
+// Обновление данных профиля
+export function refreshProfileData(profileName, profileDescription) {
+  return fetch(`${config.baseUrl}/users/me`, {
+    method: "PATCH",
+    headers: config.headers,
+    body: JSON.stringify({
+      name: profileName,
+      about: profileDescription,
+    }),
   }).then(checkResponse);
-} 
+}
 
-// Добавление новой карточки 
-export function refreshCardData(cardName, cardImage) { 
-  return fetch(`${config.baseUrl}/cards`, { 
-    method: "POST", 
-    headers: config.headers, 
-    body: JSON.stringify({ 
-      name: cardName, 
-      link: cardImage, 
-    }), 
+// Добавление новой карточки
+export function refreshCardData(cardName, cardImage) {
+  return fetch(`${config.baseUrl}/cards`, {
+    method: "POST",
+    headers: config.headers,
+    body: JSON.stringify({
+      name: cardName,
+      link: cardImage,
+    }),
   }).then(checkResponse);
-} 
+}
 
-// Удаление карточки 
-export function deleteCardFromServer(cardId) { 
-  return fetch(`${config.baseUrl}/cards/${cardId}`, { 
-    method: "DELETE", 
-    headers: config.headers, 
+// Удаление карточки
+export function deleteCardFromServer(cardId) {
+  return fetch(`${config.baseUrl}/cards/${cardId}`, {
+    method: "DELETE",
+    headers: config.headers,
   }).then(checkResponse);
-} 
+}
 
-// Постановка лайка 
-export function addCardLike(cardId) { 
-  return fetch(`${config.baseUrl}/cards/likes/${cardId}`, { 
-    method: "PUT", 
-    headers: config.headers, 
+// Постановка лайка
+export function addCardLike(cardId) {
+  return fetch(`${config.baseUrl}/cards/likes/${cardId}`, {
+    method: "PUT",
+    headers: config.headers,
   }).then(checkResponse);
-} 
+}
 
-// Снятие лайка 
-export function deleteCardLike(cardId) { 
-  return fetch(`${config.baseUrl}/cards/likes/${cardId}`, { 
-    method: "DELETE", 
-    headers: config.headers, 
+// Снятие лайка
+export function deleteCardLike(cardId) {
+  return fetch(`${config.baseUrl}/cards/likes/${cardId}`, {
+    method: "DELETE",
+    headers: config.headers,
   }).then(checkResponse);
-} 
+}
 
-// Обновление аватара 
-export function addNewProfileImage(profileImage) { 
-  return fetch(`${config.baseUrl}/users/me/avatar`, { 
-    method: "PATCH", 
-    headers: config.headers, 
-    body: JSON.stringify({ 
-      avatar: profileImage, 
-    }), 
+// Обновление аватара
+export function addNewProfileImage(profileImage) {
+  return fetch(`${config.baseUrl}/users/me/avatar`, {
+    method: "PATCH",
+    headers: config.headers,
+    body: JSON.stringify({
+      avatar: profileImage,
+    }),
   }).then(checkResponse);
 }

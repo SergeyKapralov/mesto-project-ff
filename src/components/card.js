@@ -1,4 +1,3 @@
-
 // Глобальная переменная для шаблона карточки
 const cardTemplate = document.querySelector("template").content;
 
@@ -39,7 +38,8 @@ export function createCard(cardData, handlers, userId) {
 
   likeButton.addEventListener("click", (evt) => {
     if (!evt.target.classList.contains("card__like-button_is-active")) {
-      handlers.addCardLike(cardData._id)
+      handlers
+        .addCardLike(cardData._id)
         .then((updatedCard) => {
           cardElement.querySelector(".card-like-count").textContent =
             updatedCard.likes.length;
@@ -50,7 +50,8 @@ export function createCard(cardData, handlers, userId) {
           console.error("Ошибка при постановке лайка:", error);
         });
     } else {
-      handlers.deleteCardLike(cardData._id)
+      handlers
+        .deleteCardLike(cardData._id)
         .then((updatedCard) => {
           cardElement.querySelector(".card-like-count").textContent =
             updatedCard.likes.length;
