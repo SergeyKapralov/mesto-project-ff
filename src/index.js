@@ -9,7 +9,7 @@ import {
   clearValidation,
   enableValidation,
   validationConfig,
-} from "./validation.js";
+} from "./components/validation.js";
 import {
   loadUserInfo,
   loadUserCard,
@@ -20,6 +20,8 @@ import {
   deleteCardLike,
   addNewProfileImage,
 } from "./components/api.js";
+
+import { setButtonState } from "./components/utils.js";
 
 // Глобальные константы
 const popups = document.querySelectorAll(".popup");
@@ -47,6 +49,9 @@ const formProfileElement = document.forms["new-avatar"];
 const formProfileInput = formProfileElement.elements.link;
 const avatar = document.querySelector(".profile__image");
 
+formCardElement.addEventListener("submit", handleCardFormSubmit);
+profileFormElement.addEventListener("submit", handleProfileFormSubmit);
+
 // Глобальные переменные для попапа с изображением
 const popupImage = document.querySelector(".popup_type_image");
 const imageElement = popupImage.querySelector(".popup__image");
@@ -72,7 +77,6 @@ profileImage.addEventListener("click", () => {
 
 // Обработчик для кнопки добавления карточки
 pictureAddButton.addEventListener("click", () => {
-  clearValidation(formCardElement, validationConfig);
   openModal(popupTypeNewCard);
 });
 
@@ -132,6 +136,7 @@ function handleCardFormSubmit(event) {
       placesList.prepend(cardElement);
       closeModal(popupTypeNewCard);
       formCardElement.reset();
+      clearValidation(formCardElement, validationConfig);
     })
     .catch((error) => {
       console.error("Ошибка при создании карточки:", error);
@@ -180,20 +185,11 @@ Promise.all([loadUserInfo(), loadUserCard()])
     // Используем renderCards для отрисовки карточек
     renderCards(cardsData, placesList, cardHandlers, userId);
 
-    formCardElement.addEventListener("submit", handleCardFormSubmit);
-    profileFormElement.addEventListener("submit", handleProfileFormSubmit);
-
     console.log("Данные пользователя и карточки успешно загружены");
   })
   .catch((error) => {
     console.error("Ошибка:", error);
   });
-
-// Функция изменения текста кнопки submit
-function setButtonState(button, text, isDisabled) {
-  button.textContent = text;
-  button.disabled = isDisabled;
-}
 
 // Включение валидации форм
 enableValidation(validationConfig);
